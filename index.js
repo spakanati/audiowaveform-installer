@@ -7,11 +7,16 @@ var verifyFile = require('./lib/verify-file');
 
 var platform = os.platform() + '-' + os.arch();
 
+var packageName = '@audiowaveform-installer/' + platform;
+if (!require('./package.json').optionalDependencies[packageName]) {
+    throw 'Unsupported platform/architecture: ' + platform;
+}
+
 var binary = os.platform() === 'win32' ? 'audiowaveform.exe' : 'audiowaveform';
 
-var topLevelPath = path.resolve(__dirname.substr(0, __dirname.indexOf('node_modules')), 'node_modules', 'audiowaveform-installer', platform);
+var topLevelPath = path.resolve(__dirname.substr(0, __dirname.indexOf('node_modules')), 'node_modules', '@audiowaveform-installer', platform);
 var npm3Path = path.resolve(__dirname, '..', platform);
-var npm2Path = path.resolve(__dirname, 'node_modules', 'audiowaveform-installer', platform);
+var npm2Path = path.resolve(__dirname, 'node_modules', '@audiowaveform-installer', platform);
 
 var topLevelBinary = path.join(topLevelPath, binary);
 var npm3Binary = path.join(npm3Path, binary);
